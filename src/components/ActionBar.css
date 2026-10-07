@@ -1,0 +1,121 @@
+.actions {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+/* Hero action – Enter building */
+.enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 28px 15px 22px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffe08f, var(--gold));
+  color: var(--ink-900);
+  font-size: 17px;
+  font-weight: 800;
+  font-variation-settings: 'wdth' 90;
+  cursor: pointer;
+  box-shadow:
+    0 0 0 6px rgba(255, 211, 110, 0.16),
+    0 16px 34px -10px rgba(255, 79, 154, 0.55);
+  transition: transform 180ms cubic-bezier(0.3, 0.9, 0.3, 1.2), box-shadow 180ms;
+}
+
+.enter:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 8px rgba(255, 211, 110, 0.2),
+    0 20px 40px -10px rgba(255, 79, 154, 0.65);
+}
+
+.enter:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.actions__hint {
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(15, 12, 38, 0.6);
+  color: var(--muted);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+.inside-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 8px 8px 10px;
+  border-radius: 999px;
+  background: var(--panel);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 50px -20px rgba(3, 2, 12, 0.85);
+}
+
+.inside-bar__chips {
+  display: flex;
+  gap: 4px;
+}
+
+.inside-chip {
+  padding: 8px 13px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 160ms, color 160ms;
+}
+
+.inside-chip:hover {
+  color: var(--text);
+}
+
+.inside-chip.is-on {
+  background: rgba(255, 211, 110, 0.16);
+  color: var(--gold);
+}
+
+.exit {
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--ink-900);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .actions {
+    bottom: 14px;
+    width: calc(100vw - 24px);
+  }
+  .actions__hint {
+    display: none;
+  }
+  .inside-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+  }
+  .inside-bar__chips {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,58 @@
+:root {
+  /* Midnight arena palette (loader jaisa) */
+  --ink-900: #0f0c26;
+  --ink-800: #17123a;
+  --ink-700: #2a2257;
+  --line: rgba(196, 180, 255, 0.16);
+  --text: #f5f1ff;
+  --muted: #b2a9d6;
+  --gold: #ffd36e;
+  --pink: #ff4f9a;
+  --panel: rgba(18, 14, 46, 0.82);
+
+  --font: 'Archivo', 'Segoe UI', system-ui, sans-serif;
+  --radius-lg: 16px;
+  --radius-sm: 10px;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--ink-900);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
