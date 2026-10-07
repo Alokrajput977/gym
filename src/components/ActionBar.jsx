@@ -1,6 +1,6 @@
 import './ActionBar.css';
 
-const INSIDE_VIEWS = [
+export const INSIDE_VIEWS = [
   { id: 'in:ground', label: 'Ground floor' },
   { id: 'in:reception', label: 'Reception' },
   { id: 'in:spring', label: 'Spring floor' },
@@ -24,7 +24,24 @@ function DoorIcon() {
   );
 }
 
-export default function ActionBar({ interior, activeView, onEnter, onExit, onView }) {
+export default function ActionBar({ interior, activeView, onEnter, onExit, onView, compact = false }) {
+  // Phone: sirf ek bada button (Enter ya Exit) – baaki sab hamburger menu mein
+  if (compact) {
+    return (
+      <div className="actions actions--compact">
+        {interior ? (
+          <button type="button" className="exit exit--big" onClick={onExit}>
+            Exit building
+          </button>
+        ) : (
+          <button type="button" className="enter" onClick={onEnter}>
+            <DoorIcon />
+            Enter building
+          </button>
+        )}
+      </div>
+    );
+  }
   if (!interior) {
     return (
       <div className="actions">

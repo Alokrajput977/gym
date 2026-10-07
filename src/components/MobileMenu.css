@@ -1,0 +1,124 @@
+/* ---------- Hamburger ---------- */
+.burger {
+  position: absolute;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  left: 14px;
+  z-index: 30;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 5px;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 24px -12px rgba(3, 2, 12, 0.8);
+  cursor: pointer;
+}
+
+.burger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text);
+  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 200ms;
+}
+
+.burger.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.burger.is-open span:nth-child(2) {
+  opacity: 0;
+}
+.burger.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ---------- Drawer ---------- */
+.drawer-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: rgba(5, 4, 16, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 260ms, visibility 260ms;
+}
+
+.drawer-scrim.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.drawer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 25;
+  width: min(330px, 86vw);
+  display: flex;
+  flex-direction: column;
+  padding-top: calc(72px + env(safe-area-inset-top, 0px));
+  background: rgba(16, 12, 40, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-right: 1px solid var(--line);
+  transform: translateX(-102%);
+  transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.drawer.is-open {
+  transform: none;
+}
+
+.drawer__head {
+  display: flex;
+  gap: 12px;
+  padding: 0 18px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.drawer__stripe {
+  flex: 0 0 6px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--gold), var(--pink));
+}
+
+.drawer__title {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 800;
+  font-variation-settings: 'wdth' 70;
+}
+
+.drawer__sub {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.drawer__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2px 18px calc(16px + env(safe-area-inset-bottom, 0px));
+}
+
+.drawer__label {
+  margin: 14px 0 10px;
+  font-size: 14.5px;
+  font-weight: 700;
+  font-variation-settings: 'wdth' 85;
+}
+
+.drawer__views {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}

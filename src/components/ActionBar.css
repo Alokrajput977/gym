@@ -119,3 +119,20 @@
     justify-content: center;
   }
 }
+
+/* Phone – sirf ek button */
+.actions--compact .enter,
+.actions--compact .exit {
+  white-space: nowrap;
+}
+
+.actions--compact {
+  width: auto;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+}
+
+.exit--big {
+  padding: 14px 26px;
+  font-size: 16px;
+  box-shadow: 0 0 0 6px rgba(255, 211, 110, 0.16), 0 16px 34px -10px rgba(255, 79, 154, 0.5);
+}

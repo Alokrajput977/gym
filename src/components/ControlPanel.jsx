@@ -5,6 +5,7 @@ const VIEWS = [
   { id: 'aerial', label: 'Aerial' },
   { id: 'front', label: 'Front entrance' },
   { id: 'stairs', label: 'Front stairs' },
+  { id: 'landing', label: 'Top of stairs' },
   { id: 'right', label: 'Right side' },
   { id: 'back', label: 'Back side' },
   { id: 'left', label: 'Left side' },
@@ -30,13 +31,15 @@ function Segmented({ value, options, onChange, label }) {
   );
 }
 
-export default function ControlPanel({ activeView, onView, night, onNight, wallStyle, onWallStyle, labels, onLabels }) {
+export default function ControlPanel({ activeView, onView, night, onNight, wallStyle, onWallStyle, labels, onLabels, embedded = false }) {
   const [open, setOpen] = useState(true);
   return (
-    <section className={`panel ${open ? '' : 'panel--closed'}`} aria-label="Model controls">
-      <button type="button" className="panel__handle" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
-        {open ? 'Hide controls' : 'Controls'}
-      </button>
+    <section className={`panel ${embedded ? 'panel--embedded' : ''} ${open || embedded ? '' : 'panel--closed'}`} aria-label="Model controls">
+      {!embedded && (
+        <button type="button" className="panel__handle" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
+          {open ? 'Hide controls' : 'Controls'}
+        </button>
+      )}
       <div className="panel__body">
         <div className="panel__group">
           <h2 className="panel__heading">Camera</h2>

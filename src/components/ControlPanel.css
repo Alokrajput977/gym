@@ -176,3 +176,22 @@
     display: none;
   }
 }
+
+/* Mobile drawer ke andar – normal flow, koi floating box nahi */
+.panel.panel--embedded {
+  position: static;
+  width: auto;
+  max-height: none;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  transform: none;
+}
+
+.panel--embedded .panel__body {
+  padding: 0;
+}
