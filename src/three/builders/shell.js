@@ -353,6 +353,7 @@ export function buildShell(mats, own) {
       lg.userData.noMerge = true;
       lg.traverse((o) => {
         o.userData.noMerge = true;
+        o.castShadow = false; // hilte darwaze se shadow map dobara na banana pade
       });
       lg.userData.closedX = p.x;
       lg.userData.closedZ = p.z;

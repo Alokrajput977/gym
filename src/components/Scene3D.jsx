@@ -342,7 +342,6 @@ export default function Scene3D({ view, night, wallStyle, labels, interior, onBu
 
       // Entrance ke automatic darwaze (camera paas = khule)
       const doorsMoving = world.updateDoors(dt, camera.position, doorForce);
-      if (doorsMoving) shadowDirty = true;
 
       if (!(needRender || interacting || doorsMoving || now < busyUntil)) return;
       needRender = false;
@@ -359,6 +358,22 @@ export default function Scene3D({ view, night, wallStyle, labels, interior, onBu
       if (firstFrame) {
         firstFrame = false;
         callbacks.current.onReady?.();
+        // Load ke baad khaali samay mein andar ka hissa + uske shaders pehle se taiyaar –
+        // pehli baar andar jaane par atkan nahi hoti
+        setTimeout(() => {
+          const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
+          idle(() => {
+            if (!apiRef.current) return;
+            world.withInteriorVisible((group) => {
+              group.traverse((o) => {
+                const ms = o.material ? (Array.isArray(o.material) ? o.material : [o.material]) : [];
+                ms.forEach((m) => m.map && renderer.initTexture(m.map));
+              });
+              if (renderer.compileAsync) renderer.compileAsync(scene, camera).catch(() => {});
+              else renderer.compile(scene, camera);
+            });
+          });
+        }, 1500);
       }
     });
 

@@ -20,7 +20,9 @@ export function buildWarehouse(textures) {
 
   const root = new THREE.Group();
   root.name = 'world';
-  root.add(buildSite(mats));
+  const site = buildSite(mats);
+  mergeStatic(site, own); // sadak, kerb, hedge, seedhiyan – kam draw calls (look same)
+  root.add(site);
 
   // Building – y = 0 = podium ka top (floor level)
   const building = new THREE.Group();
@@ -84,15 +86,21 @@ export function buildWarehouse(textures) {
   }
 
   let murals = null;
-  function setInterior(on) {
-    if (on && !murals) {
+  /** Andar ka hissa (murals + gym) – ek hi baar banta hai, chhupa hua. */
+  function prepareInterior() {
+    if (!murals) {
       // Gymnastics murals – pehli baar andar jaane par hi bante hain
       murals = buildMurals(mats, own);
       const gym = buildGym(mats, own); // spring floor, pit, reception, equipment
       murals.add(gym);
       mergeStatic(murals, own);
       building.add(murals);
+      murals.visible = false;
     }
+  }
+
+  function setInterior(on) {
+    if (on) prepareInterior();
     if (murals) murals.visible = on;
     inside.visible = on;
   }
@@ -142,5 +150,20 @@ export function buildWarehouse(textures) {
   }
   const doorOpen = () => doors.t;
 
-  return { group: root, building, anchors, setNight, setInterior, setWallStyle, updateDoors, doorOpen, dispose };
+  /** Shader compile ke liye: andar ki cheezein + lights thodi der visible (screen par kuch nahi dikhta). */
+  function withInteriorVisible(fn) {
+    prepareInterior();
+    const a = murals.visible;
+    const b = inside.visible;
+    murals.visible = true;
+    inside.visible = true;
+    try {
+      return fn(murals);
+    } finally {
+      murals.visible = a;
+      inside.visible = b;
+    }
+  }
+
+  return { group: root, building, anchors, setNight, setInterior, setWallStyle, updateDoors, doorOpen, prepareInterior, withInteriorVisible, dispose };
 }
