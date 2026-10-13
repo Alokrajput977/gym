@@ -198,7 +198,7 @@ export default function Loader({ visible }) {
 
       <div className="gx__text">
         <span className="gx__eyebrow">Welcome to</span>
-        <h1 className="gx__title">Gymnastics Academy</h1>
+        <h1 className="gx__title">Flip n Fly Gymnastics Academy</h1>
       </div>
 
       <div className="gx__progress">

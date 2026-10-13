@@ -59,9 +59,9 @@ export function getView(id) {
     case 'in:spring':
       return { pos: fv(50, 62, PH + 4.2), target: fv(34, 28, PH) };
     case 'in:pit':
-      return { pos: fv(30, 22, PH + 3.0), target: fv(42, 5, PH - 1.0) };
+      return { pos: fv(27, 32, PH + 4.4), target: fv(44, 4, PH + 0.8) };
     case 'in:equipment':
-      return { pos: fv(40, 84, PH + 3.6), target: fv(14, 52, PH + 0.6) };
+      return { pos: fv(42, 92, PH + 4.2), target: fv(14, 58, PH + 0.6) };
     case 'in:balcony':
       return { pos: v(front.at(MEZZ.s0 + 0.5, -(MEZZ.depth - 0.5)), PH + F + 1.65), target: v(front.at(20.5, -(MEZZ.roomDepth + 0.9)), PH + F + 0.6) };
     case 'in:room1':

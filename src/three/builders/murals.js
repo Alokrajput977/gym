@@ -240,7 +240,7 @@ function muralTexture(def) {
     ctx.fillRect(W - 90 - 360, 176, 360, 9);
     ctx.font = '700 40px Arial, sans-serif';
     ctx.fillStyle = 'rgba(255,255,255,0.9)';
-    ctx.fillText('Gymnastics Academy', W - 90, 238);
+    ctx.fillText('Flip n Fly Gymnastics Academy', W - 90, 238, 760);
 
     ctx.strokeStyle = 'rgba(255,255,255,0.55)';
     ctx.lineWidth = 8;

@@ -459,5 +459,5 @@ export default function Scene3D({ view, night, wallStyle, labels, interior, onBu
     }
   }, [interior]);
 
-  return <div className="scene3d" ref={mountRef} aria-label="3D model of the Gymnastics Academy warehouse" role="img" />;
+  return <div className="scene3d" ref={mountRef} aria-label="3D model of the Flip n Fly Gymnastics Academy warehouse" role="img" />;
 }

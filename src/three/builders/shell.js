@@ -83,13 +83,16 @@ function bannerTexture() {
     ctx.shadowOffsetY = 5;
     ctx.fillStyle = '#fff';
     ctx.font = '900 150px "Arial Black", Arial, sans-serif';
-    ctx.fillText('GYMNASTICS ACADEMY', 1230, 150, 1440);
+    ctx.fillText('FLIP N FLY', 1230, 128, 1440);
     ctx.shadowBlur = 0;
     ctx.shadowOffsetY = 0;
     ctx.fillStyle = '#ffd36e';
-    ctx.fillRect(1230 - 520, 236, 1040, 7);
-    ctx.font = '700 58px Arial, sans-serif';
-    ctx.fillText('MAIN ENTRANCE', 1230, 296, 1200);
+    ctx.font = '800 64px Arial, sans-serif';
+    ctx.fillText('GYMNASTICS ACADEMY', 1230, 236, 1300);
+    ctx.fillRect(1230 - 520, 276, 1040, 6);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 40px Arial, sans-serif';
+    ctx.fillText('MAIN ENTRANCE', 1230, 318, 1200);
   });
 }
 
@@ -98,7 +101,7 @@ function letteringTexture(text) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillStyle = '#ffffff';
-    ctx.font = '900 150px "Arial Black", Arial, sans-serif';
+    ctx.font = '900 140px "Arial Black", Arial, sans-serif';
     ctx.fillText(text, 1024, 100, 1960);
     ctx.fillStyle = '#ffd36e';
     ctx.fillRect(424, 196, 1200, 10);
@@ -479,14 +482,14 @@ export function buildShell(mats, own) {
   // Facade lettering on front gable
   {
     const lm = new THREE.MeshStandardMaterial({
-      map: letteringTexture('GYMNASTICS ACADEMY'), transparent: true, alphaTest: 0.3, roughness: 0.4,
+      map: letteringTexture('FLIP N FLY GYMNASTICS ACADEMY'), transparent: true, alphaTest: 0.3, roughness: 0.4,
       emissive: '#ffffff', emissiveIntensity: 0,
     });
     lm.emissiveMap = lm.map;
     lm.userData.dynamic = true;
     own.push(lm);
     const lp = front.at(c, 0.03);
-    const letters = new THREE.Mesh(new THREE.PlaneGeometry(11, 1.2), lm);
+    const letters = new THREE.Mesh(new THREE.PlaneGeometry(14, 1.53), lm);
     letters.position.set(lp.x, H + 0.95, lp.z);
     letters.rotation.y = front.rotY;
     letters.userData.noMerge = true;

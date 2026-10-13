@@ -8,8 +8,8 @@ import { addBox, mesh, rodGeo, polygonPlane } from '../helpers.js';
  *  - Beech mein GYM SPRING FLOOR (37' x 36' + pit tak 7' ka hissa)
  *  - Back-right kone mein 5 FT DEEP FOAM PIT
  *  - Entrance se andar aate hi LEFT mein RECEPTION
- *  - Equipment: balance beams, uneven bars, rings, pommel horse, parallel bars,
- *    trampoline, vault runway + table
+ *  - Equipment (junior size): balance beam, uneven bars, vault runway + table,
+ *    aur pit ke upar swing rings (dono taraf pole + crossbar)
  * Sab simple boxes/cylinders – baad mein mergeStatic se kuch hi draw calls.
  * Pehli baar andar jaane par hi banta hai (lazy).
  *
@@ -244,7 +244,7 @@ export function buildGym(mats, own) {
     // Sign
     const sm = std({ map: signTex('5 FT DEEP PIT', 'Land feet first', '#c0392b'), roughness: 0.5 });
     const sp = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 0.69), sm);
-    const p = F(40, 1.05);
+    const p = F(33, 1.05);
     sp.position.set(p.x, 2.3, p.z);
     sp.userData.noMerge = true;
     g.add(sp);
@@ -291,7 +291,7 @@ export function buildGym(mats, own) {
     g.add(mesh(rodGeo(new THREE.Vector3(c.x - 0.9, 0, c.z), new THREE.Vector3(c.x - 0.9, 0.46, c.z), 0.03, 8), M.chrome));
 
     // Hanging RECEPTION sign
-    const sm = std({ map: signTex('RECEPTION', 'Gymnastics Academy', '#5a2483'), emissive: '#ffffff', emissiveIntensity: 0.15, roughness: 0.5 });
+    const sm = std({ map: signTex('RECEPTION', 'Flip n Fly Gymnastics Academy', '#5a2483'), emissive: '#ffffff', emissiveIntensity: 0.15, roughness: 0.5 });
     sm.emissiveMap = sm.map;
     const sp = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 0.69), sm);
     sp.position.set(c.x + 0.2, 3.0, c.z);
@@ -324,78 +324,167 @@ export function buildGym(mats, own) {
   /* ================= EQUIPMENT ================= */
   const mat = (fx, fz, w, d, m = M.matBlue) => box(w, 0.2, d, m, fx, fz, 0.1);
 
-  // Balance beam – left strip, z ke along (sirf ek – hall khula rahe)
-  [8.5].forEach((fx) => {
-    mat(fx, 22, 1.8, 6.4);
-    box(0.1, 0.16, 5.0, M.suede, fx, 22, 1.2);
-    [-1.9, 1.9].forEach((dz) => {
-      const p = F(fx, 22);
-      addBox(g, 0.08, 1.0, 0.08, M.dark, p.x, 0.62, p.z + dz);
-      addBox(g, 1.0, 0.06, 0.12, M.dark, p.x, 0.23, p.z + dz);
-    });
-  });
-
-  // Uneven bars – left strip
+  // Balance beam (junior / training) – 3 m lamba, upar 0.6 m par
   {
-    const p = F(8.5, 41);
-    addBox(g, 4.0, 0.2, 5.0, M.matBlue, p.x, 0.1, p.z);
-    const geos = [];
-    [[-0.9, 1.7], [0.9, 2.5]].forEach(([dx, h]) => {
-      const x = p.x + dx;
-      [-1.3, 1.3].forEach((dz) => geos.push(rodGeo(new THREE.Vector3(x, 0.2, p.z + dz), new THREE.Vector3(x, h, p.z + dz), 0.05, 10)));
-    });
-    g.add(mesh(mergeGeometries(geos), M.chrome));
-    [[-0.9, 1.7], [0.9, 2.5]].forEach(([dx, h]) => {
-      g.add(mesh(rodGeo(new THREE.Vector3(p.x + dx, h, p.z - 1.3), new THREE.Vector3(p.x + dx, h, p.z + 1.3), 0.022, 12), M.wood));
+    const fx = 8.5;
+    const fz = 22;
+    mat(fx, fz, 1.4, 4.2);
+    box(0.1, 0.12, 3.0, M.suede, fx, fz, 0.66);
+    [-1.2, 1.2].forEach((dz) => {
+      const p = F(fx, fz);
+      addBox(g, 0.06, 0.42, 0.06, M.dark, p.x, 0.41, p.z + dz);
+      addBox(g, 0.7, 0.05, 0.1, M.dark, p.x, 0.225, p.z + dz);
     });
   }
 
-  // Rings
+  // Uneven bars (junior) – low 1.3 m, high 1.9 m, 1.8 m rails
   {
-    const p = F(8.5, 58);
-    addBox(g, 4.0, 0.2, 3.6, M.matBlue, p.x, 0.1, p.z);
-    const top = 5.6;
+    const p = F(8.5, 41);
+    addBox(g, 3.0, 0.2, 3.4, M.matBlue, p.x, 0.1, p.z);
+    const bars = [[-0.65, 1.3], [0.65, 1.9]];
     const geos = [];
-    [-1.6, 1.6].forEach((dz) => {
-      geos.push(rodGeo(new THREE.Vector3(p.x - 1.9, 0.2, p.z + dz), new THREE.Vector3(p.x, top, p.z + dz), 0.06, 10));
-      geos.push(rodGeo(new THREE.Vector3(p.x + 1.9, 0.2, p.z + dz), new THREE.Vector3(p.x, top, p.z + dz), 0.06, 10));
+    bars.forEach(([dx, h]) => {
+      const x = p.x + dx;
+      [-0.9, 0.9].forEach((dz) => geos.push(rodGeo(new THREE.Vector3(x, 0.2, p.z + dz), new THREE.Vector3(x, h, p.z + dz), 0.04, 10)));
     });
-    geos.push(rodGeo(new THREE.Vector3(p.x, top, p.z - 1.7), new THREE.Vector3(p.x, top, p.z + 1.7), 0.07, 10));
     g.add(mesh(mergeGeometries(geos), M.chrome));
+    bars.forEach(([dx, h]) => {
+      g.add(mesh(rodGeo(new THREE.Vector3(p.x + dx, h, p.z - 0.9), new THREE.Vector3(p.x + dx, h, p.z + 0.9), 0.02, 12), M.wood));
+    });
+  }
+
+  /* ===== PIT SWING RINGS – pit ke beech, dono taraf pole, upar crossbar, 2 rings =====
+     Bachcha rings pakad kar jhoolta hai aur seedha foam pit mein girta hai. */
+  {
+    const RX = 44; // pit ki lambai ka beech (feet)
+    const back = F(RX, 1.45); // pit ke andar, back wall ke paas (pit floor par khada)
+    const front = F(RX, 10.9); // pit ke front kinaare ke bahar, hall floor par
+    const TOP = 4.2; // crossbar ki oonchai (m)
+    const RING_Y = 1.95; // rings ki oonchai (m)
+    const yellow = M.yellow;
+    const geos = [
+      rodGeo(new THREE.Vector3(back.x, -PIT_DEPTH, back.z), new THREE.Vector3(back.x, TOP + 0.05, back.z), 0.07, 12),
+      rodGeo(new THREE.Vector3(front.x, 0, front.z), new THREE.Vector3(front.x, TOP + 0.05, front.z), 0.07, 12),
+      rodGeo(new THREE.Vector3(back.x, TOP, back.z), new THREE.Vector3(front.x, TOP, front.z), 0.065, 12),
+    ];
+    g.add(mesh(mergeGeometries(geos), yellow));
+    // base plates + back-wall bracket
+    addBox(g, 0.4, 0.04, 0.4, M.dark, front.x, 0.02, front.z);
+    addBox(g, 0.4, 0.04, 0.4, M.dark, back.x, -PIT_DEPTH + 0.02, back.z);
+    const wb = F(RX, 0);
+    g.add(mesh(rodGeo(new THREE.Vector3(wb.x, TOP - 0.35, wb.z), new THREE.Vector3(back.x, TOP - 0.35, back.z), 0.035, 8), M.dark));
+    // safety pad – front pole par neeche se 1.8 m tak
+    const pad = mesh(new THREE.CylinderGeometry(0.16, 0.16, 1.8, 18), M.matBlue);
+    pad.position.set(front.x, 0.9, front.z);
+    g.add(pad);
+    // 2 rings – crossbar ke beech, 50 cm ke gap par
+    const mz = (back.z + front.z) / 2;
+    const mx = (back.x + front.x) / 2;
     [-0.25, 0.25].forEach((dz) => {
-      g.add(mesh(rodGeo(new THREE.Vector3(p.x, top, p.z + dz), new THREE.Vector3(p.x, 2.85, p.z + dz), 0.012, 4), M.dark, { cast: false }));
+      g.add(mesh(rodGeo(new THREE.Vector3(mx, TOP, mz + dz), new THREE.Vector3(mx, RING_Y + 0.1, mz + dz), 0.012, 4), M.dark, { cast: false }));
       const r = mesh(new THREE.TorusGeometry(0.09, 0.016, 8, 20), M.wood);
-      r.position.set(p.x, 2.76, p.z + dz);
+      r.position.set(mx, RING_Y, mz + dz);
       r.rotation.y = Math.PI / 2;
       g.add(r);
     });
   }
 
-  // Vault runway – yahan log bhaag kar aate hain, springboard + table + landing mat
+  /* ===== RECEPTION KI SIDE: swing rings frame (pit jaisa) + parallel bars + mini trampoline ===== */
+  // Rings frame – 2 pole (z ke along), upar crossbar, beech mein 2 rings, neeche mota crash mat
+  {
+    const fx = 8.5;
+    const a = F(fx, 58.5);
+    const b = F(fx, 69.5);
+    const TOP = 4.2;
+    const RING_Y = 1.95;
+    g.add(mesh(mergeGeometries([
+      rodGeo(new THREE.Vector3(a.x, 0, a.z), new THREE.Vector3(a.x, TOP + 0.05, a.z), 0.07, 12),
+      rodGeo(new THREE.Vector3(b.x, 0, b.z), new THREE.Vector3(b.x, TOP + 0.05, b.z), 0.07, 12),
+      rodGeo(new THREE.Vector3(a.x, TOP, a.z), new THREE.Vector3(b.x, TOP, b.z), 0.065, 12),
+    ]), M.yellow));
+    [a, b].forEach((p) => {
+      addBox(g, 0.5, 0.04, 0.5, M.dark, p.x, 0.02, p.z);
+      const pad = mesh(new THREE.CylinderGeometry(0.16, 0.16, 1.8, 18), M.matBlue);
+      pad.position.set(p.x, 0.9, p.z);
+      g.add(pad);
+    });
+    const c = F(fx, 64);
+    addBox(g, 2.4, 0.35, 2.6, M.matBlue, c.x, 0.175, c.z); // crash mat
+    addBox(g, 2.42, 0.05, 0.2, M.yellow, c.x, 0.36, c.z - 1.2);
+    [-0.25, 0.25].forEach((dz) => {
+      g.add(mesh(rodGeo(new THREE.Vector3(c.x, TOP, c.z + dz), new THREE.Vector3(c.x, RING_Y + 0.1, c.z + dz), 0.012, 4), M.dark, { cast: false }));
+      const r = mesh(new THREE.TorusGeometry(0.09, 0.016, 8, 20), M.wood);
+      r.position.set(c.x, RING_Y, c.z + dz);
+      r.rotation.y = Math.PI / 2;
+      g.add(r);
+    });
+  }
+
+  // Parallel bars (junior) – 2.4 m rails, 1.5 m oonchi, mat ke upar
+  {
+    const p = F(21, 62);
+    addBox(g, 2.6, 0.2, 3.8, M.matBlue, p.x, 0.1, p.z);
+    const H = 1.5;
+    const geos = [];
+    [-0.24, 0.24].forEach((dx) => {
+      [-0.85, 0.85].forEach((dz) => geos.push(rodGeo(new THREE.Vector3(p.x + dx, 0.2, p.z + dz), new THREE.Vector3(p.x + dx, H, p.z + dz), 0.035, 10)));
+    });
+    g.add(mesh(mergeGeometries(geos), M.chrome));
+    addBox(g, 0.9, 0.12, 0.12, M.dark, p.x, 0.26, p.z - 0.85);
+    addBox(g, 0.9, 0.12, 0.12, M.dark, p.x, 0.26, p.z + 0.85);
+    [-0.24, 0.24].forEach((dx) => {
+      g.add(mesh(rodGeo(new THREE.Vector3(p.x + dx, H, p.z - 1.2), new THREE.Vector3(p.x + dx, H, p.z + 1.2), 0.025, 12), M.wood));
+    });
+  }
+
+  // Mini trampoline – reception ke saamne, landing mat ke saath
+  {
+    const p = F(24, 86);
+    const frame = mesh(new THREE.TorusGeometry(0.55, 0.035, 8, 32), M.dark);
+    frame.rotation.x = Math.PI / 2;
+    frame.position.set(p.x, 0.38, p.z);
+    g.add(frame);
+    const bed = mesh(new THREE.CircleGeometry(0.5, 32).rotateX(-Math.PI / 2), M.navy);
+    bed.position.set(p.x, 0.37, p.z);
+    g.add(bed);
+    const skirt = mesh(new THREE.CylinderGeometry(0.58, 0.58, 0.08, 32, 1, true), M.matBlue);
+    skirt.position.set(p.x, 0.36, p.z);
+    g.add(skirt);
+    const legs = [];
+    for (let i = 0; i < 6; i++) {
+      const t = (i / 6) * Math.PI * 2;
+      legs.push(rodGeo(new THREE.Vector3(p.x + Math.cos(t) * 0.5, 0, p.z + Math.sin(t) * 0.5), new THREE.Vector3(p.x + Math.cos(t) * 0.53, 0.36, p.z + Math.sin(t) * 0.53), 0.02, 6));
+    }
+    g.add(mesh(mergeGeometries(legs), M.dark));
+    const lm = F(24, 79.5);
+    addBox(g, 2.0, 0.25, 1.6, M.matRed, lm.x, 0.125, lm.z);
+  }
+
+  // Vault runway – yahan log bhaag kar aate hain, springboard + table + landing mat (junior size)
   {
     const z = 74;
-    const runway = new THREE.Mesh(polygonPlane([F(16, z - 2), F(46, z - 2), F(46, z + 2), F(16, z + 2)], 1), M.blue);
+    const runway = new THREE.Mesh(polygonPlane([F(16, z - 1.5), F(46, z - 1.5), F(46, z + 1.5), F(16, z + 1.5)], 1), M.blue);
     runway.position.y = 0.02;
     g.add(runway);
-    [z - 1.95, z + 1.95].forEach((fz) => {
-      const l = new THREE.Mesh(polygonPlane([F(16, fz - 0.08), F(46, fz - 0.08), F(46, fz + 0.08), F(16, fz + 0.08)], 1), M.line);
+    [z - 1.45, z + 1.45].forEach((fz) => {
+      const l = new THREE.Mesh(polygonPlane([F(16, fz - 0.06), F(46, fz - 0.06), F(46, fz + 0.06), F(16, fz + 0.06)], 1), M.line);
       l.position.y = 0.03;
       g.add(l);
     });
     const sb = F(47, z);
-    const board = addBox(g, 1.2, 0.08, 0.6, M.wood, sb.x, 0.16, sb.z);
-    board.rotation.z = 0.18;
-    const t = F(50.5, z);
-    addBox(g, 1.0, 0.08, 0.8, M.dark, t.x, 0.04, t.z);
-    g.add(mesh(rodGeo(new THREE.Vector3(t.x, 0.08, t.z), new THREE.Vector3(t.x, 1.08, t.z), 0.12, 14), M.dark));
-    const top = mesh(new THREE.CapsuleGeometry(0.42, 0.45, 6, 14), M.suede);
+    const board = addBox(g, 1.0, 0.07, 0.5, M.wood, sb.x, 0.13, sb.z);
+    board.rotation.z = 0.16;
+    const t = F(50, z);
+    addBox(g, 0.8, 0.06, 0.6, M.dark, t.x, 0.03, t.z);
+    g.add(mesh(rodGeo(new THREE.Vector3(t.x, 0.06, t.z), new THREE.Vector3(t.x, 0.84, t.z), 0.09, 14), M.dark));
+    const top = mesh(new THREE.CapsuleGeometry(0.36, 0.36, 6, 14), M.suede);
     top.rotation.z = Math.PI / 2;
-    top.scale.set(0.42, 1, 1.1);
-    top.position.set(t.x, 1.2, t.z);
+    top.scale.set(0.4, 1, 1.05);
+    top.position.set(t.x, 0.95, t.z);
     g.add(top);
-    const lm = F(57, z);
-    addBox(g, 3.4, 0.4, 3.0, M.matBlue, lm.x, 0.2, lm.z);
-    addBox(g, 3.42, 0.06, 0.25, M.yellow, lm.x, 0.41, lm.z - 1.38);
+    const lm = F(55.5, z);
+    addBox(g, 2.4, 0.3, 2.0, M.matBlue, lm.x, 0.15, lm.z);
+    addBox(g, 2.42, 0.05, 0.2, M.yellow, lm.x, 0.31, lm.z - 0.9);
   }
 
   /* ================= CEILING LIGHTS (LED high-bay) ================= */

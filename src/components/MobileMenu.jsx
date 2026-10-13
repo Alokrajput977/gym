@@ -34,7 +34,7 @@ export default function MobileMenu({ open, onOpen, onClose, children }) {
         <div className="drawer__head">
           <span className="drawer__stripe" aria-hidden="true" />
           <div>
-            <h1 className="drawer__title">Gymnastics Academy</h1>
+            <h1 className="drawer__title">Flip n Fly Gymnastics Academy</h1>
             <p className="drawer__sub">Training warehouse, three floors</p>
           </div>
         </div>
